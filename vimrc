@@ -16,6 +16,8 @@ Plugin 'neoclide/coc.nvim', {'branch': 'release'}  " auto-complete
 Plugin 'sheerun/vim-polyglot'  " syntax highlighting
 Plugin 'itchyny/lightline.vim'  " status line
 Plugin 'itchyny/vim-gitbranch'  " git branch on status line
+Plugin 'tpope/vim-fugitive'     " full path on status line
+
 
 " Python specific
 Plugin 'vim-scripts/indentpython.vim'  " auto-indent
@@ -27,7 +29,6 @@ Plugin 'leafgarland/typescript-vim'
 Plugin 'peitalin/vim-jsx-typescript'
 Plugin 'Valloric/MatchTagAlways'  " highlight matching HTML tag
 Plugin 'alvan/vim-closetag'  " auto-close HTML tags
-
 
 " Color Schemes
 Plugin 'morhetz/gruvbox'
@@ -50,10 +51,18 @@ hi Comment term=bold cterm=NONE ctermfg=245 gui=NONE guifg=#928374
 set laststatus=2
 let g:lightline = {
       \ 'colorscheme': 'darcula',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'gitbranch', 'readonly', 'relativepath', 'modified' ] ]
+      \ },
       \ 'component_function': {
-      \   'gitbranch': 'gitbranch#name'
+      \   'gitbranch': 'gitbranch#name',
+      \   'relativepath': 'RelativePath',
       \ },
       \ }
+function! RelativePath()
+  return expand('%:.')
+endfunction
 
 " Key Maps "
 " CTRL + HJKL to switch between split screens
